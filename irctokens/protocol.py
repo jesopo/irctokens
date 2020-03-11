@@ -22,6 +22,9 @@ class Hostmask(object):
 
     def __str__(self) -> str:
         return self._raw
+    def __repr__(self) -> str:
+        return (f"Hostmask(nick={self.nickname}, user={self.username}"
+           f", host={self.hostname})")
     def __eq__(self, other) -> bool:
         if isinstance(other, Hostmask):
             return str(self) == str(other)
