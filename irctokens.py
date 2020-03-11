@@ -22,7 +22,10 @@ def tokenise(line: str) -> Line:
         tags = {}
         for part in message_tags[1:].split(";"):
             key, _, value = part.partition("=")
-            tags[key] = _escape_tag(value)
+            if value:
+                tags[key] = _escape_tag(value)
+            else:
+                tags[key] = None
         line_obj.tags = tags
 
     line, _, trailing = line.partition(" :")
