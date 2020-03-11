@@ -18,6 +18,10 @@ class TokenTestTags(unittest.TestCase):
         line = irctokens.tokenise(r"@id=1\\\:\r\n\s2 PRIVMSG #channel")
         self.assertEqual(line.tags["id"], "1\\;\r\n 2")
 
+    def test_overlap(self):
+        line = irctokens.tokenise(r"@id=1\\\s\\s PRIVMSG #channel")
+        self.assertEqual(line.tags["id"], "1\\ \\s")
+
 class TokenTestSource(unittest.TestCase):
     def test_without_tags(self):
         line = irctokens.tokenise(":nick!user@host PRIVMSG #channel")

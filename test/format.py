@@ -5,7 +5,7 @@ class FormatTestTags(unittest.TestCase):
     def test(self):
         line = irctokens.format("PRIVMSG", ["#channel", "hello"],
             tags={"id": "\\" + " " + ";" + "\r\n"})
-        self.assertEqual(line, r"@id=\\\s\:\r\n PRIVMSG #channel hello")
+        self.assertEqual(line, "@id=\\\\\\s\\:\\r\\n PRIVMSG #channel hello")
 
     def test_missing(self):
         line = irctokens.format("PRIVMSG", ["#channel", "hello"])

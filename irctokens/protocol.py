@@ -1,15 +1,17 @@
 from typing import Dict, List, Optional
 
-TAG_ESCAPE =   ["\\",   " ",  ";",   "\r",  "\n"]
-TAG_UNESCAPE = ["\\\\", "\s", "\:", r"\r", r"\n"]
+TAG_UNESCAPED = ["\\",   " ",   ";",   "\r",  "\n"]
+TAG_ESCAPED =   ["\\\\", "\\s", "\\:", "\\r", "\\n"]
 
 def _unescape_tag(value: str):
-    for i, char in enumerate(TAG_UNESCAPE):
-        value = value.replace(char, TAG_ESCAPE[i])
-    return value
+    parts = value.split("\\\\")
+    for i, piece in enumerate(TAG_ESCAPED):
+        for j, part in enumerate(parts):
+            parts[j] = part.replace(piece, TAG_UNESCAPED[i])
+    return "\\".join(parts)
 def _escape_tag(value: str):
-    for i, char in enumerate(TAG_ESCAPE):
-        value = value.replace(char, TAG_UNESCAPE[i])
+    for i, char in enumerate(TAG_UNESCAPED):
+        value = value.replace(char, TAG_ESCAPED[i])
     return value
 
 class Hostmask(object):
