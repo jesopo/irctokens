@@ -44,6 +44,6 @@ class StatefulEncoder(object):
         self._buffered_lines.append(line)
 
     def pop(self, byte_count: int):
-        sent = self._buffer[:byte_count].count("\n")
+        sent = self._buffer[:byte_count].count(b"\n")
         self._buffer = self._buffer[byte_count:]
         return [self._buffered_lines.pop(0) for _ in range(sent)]
