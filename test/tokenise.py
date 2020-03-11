@@ -62,6 +62,3 @@ class TestAll(unittest.TestCase):
         self.assertEqual(line.source, "nick!user@host")
         self.assertEqual(line.command, "PRIVMSG")
         self.assertEqual(line.params, ["#channel", "hello world"])
-
-if __name__ == "__main__":
-    unittest.main()
