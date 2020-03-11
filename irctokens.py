@@ -25,10 +25,7 @@ def tokenise(line: str) -> Line:
             tags[key] = _escape_tag(value)
         line_obj.tags = tags
 
-    if " :" in line:
-        line, _, trailing = line.partition(" :")
-        line_obj.params.append(trailing)
-
+    line, _, trailing = line.partition(" :")
     params = list(filter(bool, line.split(" ")))
 
     if params[0][0] == ":":
@@ -36,6 +33,8 @@ def tokenise(line: str) -> Line:
 
     line_obj.command = params.pop(0).upper()
 
-    if params:
-        line_obj.params[0:0] = params
+    if trailing:
+        params.append(trailing)
+    line_obj.params = params
+
     return line_obj
