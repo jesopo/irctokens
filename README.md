@@ -24,6 +24,8 @@ where you don't expect them or not being where you expect them.
 {'id': '123'}
 >>> line.source
 'jess!~jess@hostname'
+>>> line.hostmask
+Hostmask(nick=n, user=u, host=h)
 >>> line.command
 'PRIVMSG'
 >>> line.params
