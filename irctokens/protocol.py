@@ -77,7 +77,12 @@ class Line(object):
         params = self.params.copy()
         if self.params:
             last = params.pop(-1)
-            outs.extend(params)
+            for param in params:
+                if " " in param:
+                    outs.extend(param.split(" "))
+                else:
+                    outs.append(param)
+
             if " " in last:
                 last = f":{last}"
             outs.append(last)

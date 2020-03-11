@@ -40,3 +40,8 @@ class FormatTestTrailing(unittest.TestCase):
     def test_no_space(self):
         line = irctokens.format("PRIVMSG", ["#channel", "helloworld"])
         self.assertEqual(line, "PRIVMSG #channel helloworld")
+
+class FormatTestSpacedArg(unittest.TestCase):
+    def test(self):
+        line = irctokens.format("USER", ["user", "0 *", "real name"])
+        self.assertEqual(line, "USER user 0 * :real name")
