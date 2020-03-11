@@ -25,7 +25,7 @@ where you don't expect them or not being where you expect them.
 >>> line.source
 'jess!~jess@hostname'
 >>> line.hostmask
-Hostmask(nick=n, user=u, host=h)
+Hostmask(nickname=jess, username=~jess, hostname=hostname)
 >>> line.command
 'PRIVMSG'
 >>> line.params
@@ -37,23 +37,6 @@ Hostmask(nick=n, user=u, host=h)
 ```python
 >>> irctokens.format("USER", ["user", "0", "*", "real name"])
 'USER user 0 * :real name'
-```
-
-### hostmasks
-
-```python
->>> line = irctokens.tokenise(
-...     "@id=123 :jess!~jess@hostname PRIVMSG #chat :hello there!")
->>>
->>> hostmask = irctokens.Hostmask(line.source)
->>> hostmask.nickname
-'jess'
->>> hostmask.username
-'~jess'
->>> hostmask.hostname
-'hostname'
->>> str(hostmask)
-'jess!~jess@hostname'
 ```
 
 ### stateful
