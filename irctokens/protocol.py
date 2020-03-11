@@ -12,6 +12,16 @@ def _escape_tag(value: str):
         value = value.replace(char, TAG_UNESCAPE[i])
     return value
 
+class Hostmask(object):
+    def __init__(self, source: str):
+        self._raw = source
+        username,      _, hostname = source.partition("@")
+        self.nickname, _, username = username.partition("!")
+        self.username = username or None
+        self.hostname = hostname or None
+    def __str__(self) -> str:
+        return self._raw
+
 class Line(object):
     def __init__(self,
             tags:
