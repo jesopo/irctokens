@@ -25,12 +25,15 @@ class StatefulDecoder(object):
 class StatefulEncoder(object):
     def __init__(self):
         self._buffer = b""
+        self._buffered_lines: typing.List[Line] = []
 
     def pending(self) -> bytes:
         return self._buffer
 
     def push(self, line: Line) -> bytes:
         self._buffer += f"{line.format()}\r\n".encode("utf8")
-        return self._buffer
+        self._buffered_lines.append(line)
     def pop(self, byte_count: int):
+        sent = self._buffer[:byte_count].count("\n")
         self._buffer = self._buffer[byte_count:]
+        return [self._buffered_lines.pop(0) for _ in range(sent)]
