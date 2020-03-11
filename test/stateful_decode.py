@@ -43,3 +43,10 @@ class TestEmpty(unittest.TestCase):
         d.push(b"PRIVMSG #channel hello")
         lines = d.push(b"")
         self.assertIsNone(lines)
+
+class TestClear(unittest.TestCase):
+    def test(self):
+        d = irctokens.StatefulDecoder()
+        d.push(b"PRIVMSG ")
+        d.clear()
+        self.assertEqual(d.pending(), b"")

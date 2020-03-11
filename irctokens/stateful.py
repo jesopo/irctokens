@@ -4,7 +4,13 @@ from .protocol import Line, tokenise
 class StatefulDecoder(object):
     def __init__(self, fallback: str="iso-8859"):
         self._fallback = fallback
+        self.clear()
+
+    def clear(self):
         self._buffer = b""
+
+    def pending(self) -> bytes:
+        return self._buffer
 
     def push(self, data: bytes) -> typing.Optional[typing.List[Line]]:
         if not data:
