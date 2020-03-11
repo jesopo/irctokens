@@ -25,7 +25,7 @@ class StatefulDecoder(object):
 class StatefulEncoder(object):
     def __init__(self):
         self.clear()
-        
+
     def clear(self):
         self._buffer = b""
         self._buffered_lines: typing.List[Line] = []
@@ -36,7 +36,7 @@ class StatefulEncoder(object):
     def push(self, line: Line):
         self._buffer += f"{line.format()}\r\n".encode("utf8")
         self._buffered_lines.append(line)
-        
+
     def pop(self, byte_count: int):
         sent = self._buffer[:byte_count].count("\n")
         self._buffer = self._buffer[byte_count:]
