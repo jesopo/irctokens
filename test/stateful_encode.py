@@ -1,14 +1,14 @@
 import unittest
 import irctokens
 
-class TestPush(unittest.TestCase):
+class EncodeTestPush(unittest.TestCase):
     def test(self):
         e = irctokens.StatefulEncoder()
         line = irctokens.tokenise("PRIVMSG #channel hello")
         e.push(line)
         self.assertEqual(e.pending(), b"PRIVMSG #channel hello\r\n")
 
-class TestPop(unittest.TestCase):
+class EncodeTestPop(unittest.TestCase):
     def test_partial(self):
         e = irctokens.StatefulEncoder()
         line = irctokens.tokenise("PRIVMSG #channel hello")
@@ -32,9 +32,16 @@ class TestPop(unittest.TestCase):
         lines = e.pop(1)
         self.assertEqual(len(lines), 0)
 
-class TestClear(unittest.TestCase):
+class EncodeTestClear(unittest.TestCase):
     def test(self):
         e = irctokens.StatefulEncoder()
         e.push(irctokens.tokenise("PRIVMSG #channel hello"))
         e.clear()
         self.assertEqual(e.pending(), b"")
+
+class EncodeTestEncoding(unittest.TestCase):
+    def test(self):
+        e = irctokens.StatefulEncoder(encoding="iso-8859-2")
+        e.push(irctokens.tokenise("PRIVMSG #channel :hello Č"))
+        self.assertEqual(e.pending(),
+            "PRIVMSG #channel :hello Č\r\n".encode("iso-8859-2"))

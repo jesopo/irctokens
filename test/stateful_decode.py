@@ -1,7 +1,7 @@
 import unittest
 import irctokens
 
-class TestPartial(unittest.TestCase):
+class DecodeTestPartial(unittest.TestCase):
     def test(self):
         d = irctokens.StatefulDecoder()
         lines = d.push(b"PRIVMSG ")
@@ -12,7 +12,7 @@ class TestPartial(unittest.TestCase):
         line = irctokens.tokenise("PRIVMSG #channel hello")
         self.assertEqual(lines, [line])
 
-class TestMultiple(unittest.TestCase):
+class DecodeTestMultiple(unittest.TestCase):
     def test(self):
         d = irctokens.StatefulDecoder()
         lines = d.push(b"PRIVMSG #channel1 hello\r\n"
@@ -24,15 +24,20 @@ class TestMultiple(unittest.TestCase):
         self.assertEqual(lines[0], line1)
         self.assertEqual(lines[1], line2)
 
-class TestFallback(unittest.TestCase):
+class DecodeTestEncoding(unittest.TestCase):
     def test(self):
+        d = irctokens.StatefulDecoder(encoding="iso-8859-2")
+        lines = d.push("PRIVMSG #channel :hello Č\r\n".encode("iso-8859-2"))
+        line = irctokens.tokenise("PRIVMSG #channel :hello Č")
+        self.assertEqual(lines[0], line)
+    def test_fallback(self):
         d = irctokens.StatefulDecoder(fallback="latin-1")
         lines = d.push("PRIVMSG #channel hélló\r\n".encode("latin-1"))
         self.assertEqual(len(lines), 1)
         line = irctokens.tokenise("PRIVMSG #channel hélló")
         self.assertEqual(lines[0], line)
 
-class TestEmpty(unittest.TestCase):
+class DecodeTestEmpty(unittest.TestCase):
     def test_immediate(self):
         d = irctokens.StatefulDecoder()
         lines = d.push(b"")
@@ -44,7 +49,7 @@ class TestEmpty(unittest.TestCase):
         lines = d.push(b"")
         self.assertIsNone(lines)
 
-class TestClear(unittest.TestCase):
+class DecodeTestClear(unittest.TestCase):
     def test(self):
         d = irctokens.StatefulDecoder()
         d.push(b"PRIVMSG ")

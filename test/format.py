@@ -1,7 +1,7 @@
 import unittest
 import irctokens
 
-class TestTags(unittest.TestCase):
+class FormatTestTags(unittest.TestCase):
     def test(self):
         line = irctokens.format("PRIVMSG", ["#channel", "hello"],
             tags={"id": "\\" + " " + ";" + "\r\n"})
@@ -21,18 +21,18 @@ class TestTags(unittest.TestCase):
             tags={"a": ""})
         self.assertEqual(line, "@a PRIVMSG #channel hello")
 
-class TestSource(unittest.TestCase):
+class FormatTestSource(unittest.TestCase):
     def test(self):
         line = irctokens.format("PRIVMSG", ["#channel", "hello"],
             source="nick!user@host")
         self.assertEqual(line, ":nick!user@host PRIVMSG #channel hello")
 
-class TestCommand(unittest.TestCase):
+class FormatTestCommand(unittest.TestCase):
     def test_lowercase(self):
         line = irctokens.format("privmsg")
         self.assertEqual(line, "PRIVMSG")
 
-class TestTrailing(unittest.TestCase):
+class FormatTestTrailing(unittest.TestCase):
     def test_space(self):
         line = irctokens.format("PRIVMSG", ["#channel", "hello world"])
         self.assertEqual(line, "PRIVMSG #channel :hello world")
