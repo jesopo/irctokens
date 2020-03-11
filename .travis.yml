@@ -11,3 +11,4 @@ install:
 script:
   - mypy irctokens
   - python3 -m unittest test.tokenise
+  - python3 -m unittest test.format
