@@ -10,6 +10,10 @@ where you don't expect them or not being where you expect them.
 
 ## usage
 
+### installation
+
+`$ pip3 install irctokens`
+
 ### tokenisation
 ```python
 import irctokens
