@@ -58,8 +58,8 @@ def _send(line):
     while e.pending():
         e.pop(s.send(e.pending()))
 
-_send(irctokens.format("USER", [NICK, "0", "*", "real name"]))
-_send(irctokens.format("NICK", ["nickname"]))
+_send(irctokens.format("USER", ["username", "0", "*", "real name"]))
+_send(irctokens.format("NICK", [NICK]))
 
 while True:
     lines = d.push(s.recv(1024))
