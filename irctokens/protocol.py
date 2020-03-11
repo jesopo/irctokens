@@ -81,9 +81,9 @@ class Line(object):
             last = params.pop(-1)
             for param in params:
                 if " " in param:
-                    outs.extend(param.split(" "))
-                else:
-                    outs.append(param)
+                    raise ValueError(
+                        "Spaces are not permitted in non-last params")
+            outs.extend(params)
 
             if " " in last:
                 last = f":{last}"

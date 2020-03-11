@@ -43,5 +43,6 @@ class FormatTestTrailing(unittest.TestCase):
 
 class FormatTestSpacedArg(unittest.TestCase):
     def test(self):
-        line = irctokens.format("USER", ["user", "0 *", "real name"])
-        self.assertEqual(line, "USER user 0 * :real name")
+        def _inner():
+            irctokens.format("USER", ["user", "0 *", "real name"])
+        self.assertRaises(ValueError, _inner)
