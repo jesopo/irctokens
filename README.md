@@ -13,8 +13,8 @@ import irctokens
 line = irctokens.tokenise(
     "@id=123 :jess!~jess@hostname PRIVMSG #chat :hello there!")
 
-print(f"tags:    {line.tags}")
-print(f"source:  {line.source}")
-print(f"command: {line.command}")
-print(f"params:  {line.params}")
+print(f"tags:    {line.tags}")    # {"id": "123"}
+print(f"source:  {line.source}")  # "jess!~jess@hostname"
+print(f"command: {line.command}") # "PRIVMSG"
+print(f"params:  {line.params}")  # ["#chat", "hello there"]
 ```
