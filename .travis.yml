@@ -10,4 +10,4 @@ install:
   - pip3 install mypy
 script:
   - mypy irctokens.py
-  - python3 tests.py
+  - python3 -m unittest test.tokenise
