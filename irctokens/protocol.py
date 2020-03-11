@@ -54,7 +54,8 @@ class Line(object):
     _hostmask: Optional[Hostmask] = None
     @property
     def hostmask(self):
-        self._hostmask = self._hostmask or Hostmask(self.source)
+        if self.source:
+            self._hostmask = self._hostmask or Hostmask(self.source)
         return self._hostmask
 
     def format(self) -> str:

@@ -33,3 +33,7 @@ class HostmaskTest(unittest.TestCase):
         self.assertEqual(line.hostmask.nickname, "nick")
         self.assertEqual(line.hostmask.username, "user")
         self.assertEqual(line.hostmask.hostname, "host")
+
+    def test_none_source(self):
+        line = irctokens.tokenise("PRIVMSG #channel hello")
+        self.assertIsNone(line.hostmask)
