@@ -46,6 +46,10 @@ _send(irctokens.format("NICK", ["nickname"]))
 
 while True:
     lines = d.push(s.recv(1024))
+    if lines == None:
+        print("! disconnected")
+        break
+
     for line in lines:
         if line.command == "PING":
             to_send = irctokens.format("PONG", [line.params[0]])

@@ -31,3 +31,15 @@ class TestFallback(unittest.TestCase):
         self.assertEqual(len(lines), 1)
         line = irctokens.tokenise("PRIVMSG #channel hélló")
         self.assertEqual(lines[0], line)
+
+class TestEmpty(unittest.TestCase):
+    def test_immediate(self):
+        d = irctokens.StatefulDecoder()
+        lines = d.push(b"")
+        self.assertIsNone(lines)
+
+    def test_buffer_unfinished(self):
+        d = irctokens.StatefulDecoder()
+        d.push(b"PRIVMSG #channel hello")
+        lines = d.push(b"")
+        self.assertIsNone(lines)

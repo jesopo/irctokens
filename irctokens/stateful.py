@@ -6,7 +6,10 @@ class StatefulDecoder(object):
         self._fallback = fallback
         self._buffer = b""
 
-    def push(self, data: bytes) -> typing.List[Line]:
+    def push(self, data: bytes) -> typing.Optional[typing.List[Line]]:
+        if not data:
+            return None
+
         self._buffer += data
         lines = [l.strip(b"\r") for l in self._buffer.split(b"\n")]
         self._buffer = lines.pop(-1)
