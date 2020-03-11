@@ -21,3 +21,16 @@ class StatefulDecoder(object):
             except UnicodeDecodeError as e:
                 decode_lines.append(line.decode(self._fallback))
         return [tokenise(l) for l in decode_lines]
+
+class StatefulEncoder(object):
+    def __init__(self):
+        self._buffer = b""
+
+    def pending(self) -> bytes:
+        return self._buffer
+
+    def push(self, line: Line) -> bytes:
+        self._buffer += f"{line.format()}\r\n".encode("utf8")
+        return self._buffer
+    def pop(self, byte_count: int):
+        self._buffer = self._buffer[byte_count:]
