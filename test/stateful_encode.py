@@ -32,9 +32,9 @@ class TestPop(unittest.TestCase):
         lines = e.pop(1)
         self.assertEqual(len(lines), 0)
 
-class TestClear(unittest.TetsCase):
+class TestClear(unittest.TestCase):
     def test(self):
         e = irctokens.StatefulEncoder()
-        e.push(irctokens.tokenise("PRIVMSG #channel hello")
+        e.push(irctokens.tokenise("PRIVMSG #channel hello"))
         e.clear()
         self.assertEqual(e.pending(), b"")
