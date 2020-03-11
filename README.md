@@ -16,22 +16,42 @@ where you don't expect them or not being where you expect them.
 
 ### tokenisation
 ```python
-import irctokens
-
-line = irctokens.tokenise(
-    "@id=123 :jess!~jess@hostname PRIVMSG #chat :hello there!")
-
-if line.command == "PRIVMSG":
-    print(f"received message from {line.source}"
-          f" to {line.params[0]}: {line.params[1]}")
+>>> import irctokens
+>>> line = irctokens.tokenise(
+...     "@id=123 :jess!~jess@hostname PRIVMSG #chat :hello there!")
+>>>
+>>> line.tags
+{'id': '123'}
+>>> line.source
+'jess!~jess@hostname'
+>>> line.command
+'PRIVMSG'
+>>> line.params
+['#chat', 'hello there!']
 ```
 
 ### formatting
 
 ```python
->>> import irctokens
 >>> irctokens.format("USER", ["user", "0", "*", "real name"])
 'USER user 0 * :real name'
+```
+
+### hostmasks
+
+```python
+>>> line = irctokens.tokenise(
+...     "@id=123 :jess!~jess@hostname PRIVMSG #chat :hello there!")
+>>>
+>>> hostmask = irctokens.Hostmask(line.source)
+>>> hostmask.nickname
+'jess'
+>>> hostmask.username
+'~jess'
+>>> hostmask.hostname
+'hostname'
+>>> str(hostmask)
+'jess!~jess@hostname'
 ```
 
 ### stateful
