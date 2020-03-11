@@ -1,5 +1,7 @@
 # irctokens
 
+[![Build Status](https://travis-ci.org/jesopo/irctokens.svg?branch=master)](https://travis-ci.org/jesopo/irctokens)
+
 ## rationale
 
 there's far too many IRC client implementations out in the world that do not
