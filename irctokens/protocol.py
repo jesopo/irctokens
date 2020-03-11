@@ -19,8 +19,14 @@ class Hostmask(object):
         self.nickname, _, username = username.partition("!")
         self.username = username or None
         self.hostname = hostname or None
+
     def __str__(self) -> str:
         return self._raw
+    def __eq__(self, other) -> bool:
+        if isinstance(other, Hostmask):
+            return str(self) == str(other)
+        else:
+            return False
 
 class Line(object):
     def __init__(self,
@@ -34,11 +40,17 @@ class Line(object):
         self.command = command
         self.params  = params
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         if isinstance(other, Line):
             return self.format() == other.format()
         else:
             return False
+
+    _hostmask: typing.Optional[Hostmask] = None
+    @property
+    def hostmask(self):
+        self._hostmask = self._hostmask or Hostmask(self.source)
+        return self._hostmask
 
     def format(self) -> str:
         outs: typing.List[str] = []

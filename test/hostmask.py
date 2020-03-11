@@ -1,7 +1,7 @@
 import unittest
 import irctokens
 
-class HostmaskTestAll(unittest.TestCase):
+class HostmaskTest(unittest.TestCase):
     def test_all(self):
         hostmask = irctokens.Hostmask("nick!user@host")
         self.assertEqual(hostmask.nickname, "nick")
@@ -26,3 +26,10 @@ class HostmaskTestAll(unittest.TestCase):
         self.assertIsNone(hostmask.username)
         self.assertIsNone(hostmask.hostname)
 
+    def test_line(self):
+        line = irctokens.tokenise(":nick!user@host PRIVMSG #channel hello")
+        hostmask = irctokens.Hostmask("nick!user@host")
+        self.assertEqual(line.hostmask, hostmask)
+        self.assertEqual(line.hostmask.nickname, "nick")
+        self.assertEqual(line.hostmask.username, "user")
+        self.assertEqual(line.hostmask.hostname, "host")
