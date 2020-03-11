@@ -30,7 +30,7 @@ class StatefulEncoder(object):
     def pending(self) -> bytes:
         return self._buffer
 
-    def push(self, line: Line) -> bytes:
+    def push(self, line: Line):
         self._buffer += f"{line.format()}\r\n".encode("utf8")
         self._buffered_lines.append(line)
     def pop(self, byte_count: int):
