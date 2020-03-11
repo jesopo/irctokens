@@ -31,7 +31,7 @@ class Line(object):
             for key in sorted(self.tags.keys()):
                 if self.tags[key]:
                     tags_str.append(
-                        "%s=%s" % (key, _escape_tag(self.tags[key])))
+                        "%s=%s" % (key, _escape_tag(self.tags[key] or "")))
                 else:
                     tags_str.append(key)
             outs.append("@%s" % ";".join(tags_str))
