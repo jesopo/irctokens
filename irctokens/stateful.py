@@ -1,4 +1,4 @@
-import typing
+from typing import List, Optional
 from .protocol import Line, tokenise
 
 class StatefulDecoder(object):
@@ -13,7 +13,7 @@ class StatefulDecoder(object):
     def pending(self) -> bytes:
         return self._buffer
 
-    def push(self, data: bytes) -> typing.Optional[typing.List[Line]]:
+    def push(self, data: bytes) -> Optional[List[Line]]:
         if not data:
             return None
 
@@ -21,7 +21,7 @@ class StatefulDecoder(object):
         lines = [l.strip(b"\r") for l in self._buffer.split(b"\n")]
         self._buffer = lines.pop(-1)
 
-        decode_lines: typing.List[str] = []
+        decode_lines: List[str] = []
         for line in lines:
             try:
                 decode_lines.append(line.decode(self._encoding))
@@ -36,7 +36,7 @@ class StatefulEncoder(object):
 
     def clear(self):
         self._buffer = b""
-        self._buffered_lines: typing.List[Line] = []
+        self._buffered_lines: List[Line] = []
 
     def pending(self) -> bytes:
         return self._buffer

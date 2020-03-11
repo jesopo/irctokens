@@ -1,4 +1,4 @@
-import typing
+from typing import Dict, List, Optional
 
 TAG_ESCAPE =   ["\\",   " ",  ";",   "\r",  "\n"]
 TAG_UNESCAPE = ["\\\\", "\s", "\:", r"\r", r"\n"]
@@ -33,11 +33,10 @@ class Hostmask(object):
 
 class Line(object):
     def __init__(self,
-            tags:
-                typing.Optional[typing.Dict[str, typing.Optional[str]]]=None,
-            source:  typing.Optional[str]=None,
+            tags:    Optional[Dict[str, Optional[str]]]=None,
+            source:  Optional[str]=None,
             command: str="",
-            params:  typing.List[str]=None):
+            params:  List[str]=None):
         self.tags    = tags
         self.source  = source
         self.command = command
@@ -52,14 +51,14 @@ class Line(object):
         return (f"Line(tag={self.tags}, source={self.source}"
             f", command={self.command}, params={self.params})")
 
-    _hostmask: typing.Optional[Hostmask] = None
+    _hostmask: Optional[Hostmask] = None
     @property
     def hostmask(self):
         self._hostmask = self._hostmask or Hostmask(self.source)
         return self._hostmask
 
     def format(self) -> str:
-        outs: typing.List[str] = []
+        outs: List[str] = []
         if self.tags:
             tags_str = []
             for key in sorted(self.tags.keys()):
@@ -113,8 +112,8 @@ def tokenise(line: str) -> Line:
 
 def format(
         command: str,
-        params:  typing.List[str]=[],
-        source:  typing.Optional[str]=None,
-        tags:    typing.Optional[typing.Dict[str, typing.Optional[str]]]=None
+        params:  List[str]=[],
+        source:  Optional[str]=None,
+        tags:    Optional[Dict[str, Optional[str]]]=None
         ) -> str:
     return Line(tags, source, command, params).format()
