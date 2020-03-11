@@ -64,14 +64,14 @@ class Line(object):
             tags_str = []
             for key in sorted(self.tags.keys()):
                 if self.tags[key]:
-                    tags_str.append(
-                        "%s=%s" % (key, _escape_tag(self.tags[key] or "")))
+                    value = self.tags[key] or ""
+                    tags_str.append(f"{key}={_escape_tag(value)}")
                 else:
                     tags_str.append(key)
-            outs.append("@%s" % ";".join(tags_str))
+            outs.append(f"@{';'.join(tags_str)}")
 
         if self.source:
-            outs.append(":%s" % self.source)
+            outs.append(f":{self.source}")
         outs.append(self.command.upper())
 
         params = self.params.copy()
@@ -79,7 +79,7 @@ class Line(object):
             last = params.pop(-1)
             outs.extend(params)
             if " " in last:
-                last = ":%s" % last
+                last = f":{last}"
             outs.append(last)
         return " ".join(outs)
 
