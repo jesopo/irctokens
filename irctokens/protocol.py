@@ -15,10 +15,15 @@ def _escape_tag(value: str):
 class Hostmask(object):
     def __init__(self, source: str):
         self._raw = source
-        username,      _, hostname = source.partition("@")
-        self.nickname, _, username = username.partition("!")
-        self.username = username or None
-        self.hostname = hostname or None
+        if source is None:
+            self.nickname = None
+            self.username = None
+            self.hostname = None
+        else:
+            username,      _, hostname = source.partition("@")
+            self.nickname, _, username = username.partition("!")
+            self.username = username or None
+            self.hostname = hostname or None
 
     def __str__(self) -> str:
         return self._raw
