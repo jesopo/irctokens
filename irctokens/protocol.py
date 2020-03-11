@@ -37,11 +37,11 @@ class Line(object):
                 typing.Optional[typing.Dict[str, typing.Optional[str]]]=None,
             source:  typing.Optional[str]=None,
             command: str="",
-            params:  typing.List[str]=[]):
+            params:  typing.List[str]=None):
         self.tags    = tags
         self.source  = source
         self.command = command
-        self.params  = params
+        self.params  = params or []
 
     def __eq__(self, other) -> bool:
         if isinstance(other, Line):
