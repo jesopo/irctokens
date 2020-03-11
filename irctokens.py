@@ -10,8 +10,8 @@ class Line(object):
     params: typing.List[str] = []
 
 def _escape_tag(value: str):
-    for i, char in enumerate(TAG_ESCAPE):
-        value = value.replace(char, TAG_UNESCAPE[i])
+    for i, char in enumerate(TAG_UNESCAPE):
+        value = value.replace(char, TAG_ESCAPE[i])
     return value
 
 def tokenise(line: str) -> Line:
