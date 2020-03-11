@@ -13,6 +13,7 @@ where you don't expect them or not being where you expect them.
 ### tokenisation
 ```python
 import irctokens
+
 line = irctokens.tokenise(
     "@id=123 :jess!~jess@hostname PRIVMSG #chat :hello there!")
 
@@ -22,14 +23,35 @@ if line.command == "PRIVMSG":
 ```
 
 ### formatting
+
 ```python
-import socket
-import irctokens
+>>> import irctokens
+>>> irctokens.format("USER", ["user", "0", "*", "real name"])
+'USER user 0 * :real name'
+```
 
-sock = socket.socket()
-sock.connect(("127.0.0.1", 6667))
+### stateful
+```python
+import irctokens, socket
 
-line = irctokens.format("USER", ["user", "0", "*", "real name"])
-to_send = "%s\r\n" % line
-sock.send(to_send.encode("utf8"))
+d = irctokens.StatefulDecoder()
+s = socket.socket()
+s.connect(("127.0.0.1", 6667))
+
+def _send(line):
+    s.send(f"{line}\r\n".encode("utf8"))
+
+_send(irctokens.format("USER", ["username", "0", "*", "real name"]))
+_send(irctokens.format("NICK", ["nickname"]))
+
+while True:
+    lines = d.push(s.recv(1024))
+    for line in lines:
+        if line.command == "PING":
+            to_send = irctokens.format("PONG", [line.params[0]])
+            _send(to_send)
+
+        elif line.command == "001":
+            to_send = irctokens.format("JOIN", ["#test"])
+            _send(to_send)
 ```
