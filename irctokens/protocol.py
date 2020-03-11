@@ -23,8 +23,8 @@ class Hostmask(object):
     def __str__(self) -> str:
         return self._raw
     def __repr__(self) -> str:
-        return (f"Hostmask(nick={self.nickname}, user={self.username}"
-           f", host={self.hostname})")
+        return (f"Hostmask(nick={self.nickname!r}, user={self.username!r}"
+           f", host={self.hostname!r})")
     def __eq__(self, other) -> bool:
         if isinstance(other, Hostmask):
             return str(self) == str(other)
@@ -48,8 +48,8 @@ class Line(object):
         else:
             return False
     def __repr__(self) -> str:
-        return (f"Line(tag={self.tags}, source={self.source}"
-            f", command={self.command}, params={self.params})")
+        return (f"Line(tag={self.tags!r}, source={self.source!r}"
+            f", command={self.command!r}, params={self.params!r})")
 
     _hostmask: Optional[Hostmask] = None
     @property

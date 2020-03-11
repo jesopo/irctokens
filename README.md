@@ -25,7 +25,7 @@ where you don't expect them or not being where you expect them.
 >>> line.source
 'jess!~jess@hostname'
 >>> line.hostmask
-Hostmask(nickname=jess, username=~jess, hostname=hostname)
+Hostmask(nickname='jess', username='~jess', hostname='hostname')
 >>> line.command
 'PRIVMSG'
 >>> line.params
