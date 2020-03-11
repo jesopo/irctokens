@@ -23,7 +23,7 @@ if line.command == "PRIVMSG":
 
 ### formatting
 ```python
-import sockets
+import socket
 import irctokens
 
 sock = socket.socket()
