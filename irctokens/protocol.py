@@ -48,6 +48,9 @@ class Line(object):
             return self.format() == other.format()
         else:
             return False
+    def __repr__(self) -> str:
+        return (f"Line(tag={self.tags}, source={self.source}"
+            f", command={self.command}, params={self.params})")
 
     _hostmask: typing.Optional[Hostmask] = None
     @property
