@@ -14,6 +14,10 @@ class TestTags(unittest.TestCase):
         line = irctokens.tokenise("@id PRIVMSG #channel")
         self.assertIsNone(line.tags["id"])
 
+    def test_unescape(self):
+        line = irctokens.tokenise(r"@id=1\\\:\r\n\s2 PRIVMSG #channel")
+        self.assertEqual(line.tags["id"], "1\\;\r\n 2")
+
 class TestSource(unittest.TestCase):
     def test_without_tags(self):
         line = irctokens.tokenise(":nick!user@host PRIVMSG #channel")
