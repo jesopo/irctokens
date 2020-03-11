@@ -4,6 +4,8 @@ TAG_UNESCAPED = ["\\",   " ",   ";",   "\r",  "\n"]
 TAG_ESCAPED =   ["\\\\", "\\s", "\\:", "\\r", "\\n"]
 
 def _unescape_tag(value: str):
+    if value.endswith("\\") and not value.endswith("\\\\"):
+        value = value[:-1]
     parts = value.split("\\\\")
     for i, piece in enumerate(TAG_ESCAPED):
         for j, part in enumerate(parts):
