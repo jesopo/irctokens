@@ -83,11 +83,12 @@ class Line(object):
             last = params.pop(-1)
             for param in params:
                 if " " in param:
-                    raise ValueError(
-                        "Spaces are not permitted in non-last params")
+                    raise ValueError("non last params cannot have spaces")
+                elif param.startswith(":"):
+                    raise ValueError("non last params cannot start with colon")
             outs.extend(params)
 
-            if " " in last:
+            if " " in last or last.startswith(":"):
                 last = f":{last}"
             outs.append(last)
         return " ".join(outs)

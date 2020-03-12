@@ -41,8 +41,17 @@ class FormatTestTrailing(unittest.TestCase):
         line = irctokens.format("PRIVMSG", ["#channel", "helloworld"])
         self.assertEqual(line, "PRIVMSG #channel helloworld")
 
-class FormatTestSpacedArg(unittest.TestCase):
-    def test(self):
+    def test_double_colon(self):
+        line = irctokens.format("PRIVMSG", ["#channel", ":helloworld"])
+        self.assertEqual(line, "PRIVMSG #channel ::helloworld")
+
+class FormatTestInvalidParam(unittest.TestCase):
+    def test_non_last_space(self):
         def _inner():
             irctokens.format("USER", ["user", "0 *", "real name"])
+        self.assertRaises(ValueError, _inner)
+
+    def test_non_last_colon(self):
+        def _inner():
+            irctokens.format("PRIVMSG", [":#channel", "hello"])
         self.assertRaises(ValueError, _inner)
