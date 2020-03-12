@@ -121,10 +121,10 @@ def tokenise(line: str) -> Line:
 
     return line_obj
 
-def format(
+def build(
         command: str,
         params:  List[str]=[],
         source:  Optional[str]=None,
         tags:    Optional[Dict[str, Optional[str]]]=None
-        ) -> str:
-    return Line(tags, source, command, params).format()
+        ) -> Line:
+    return Line(tags, source, command, params)

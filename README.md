@@ -35,7 +35,7 @@ Hostmask(nickname='jess', username='~jess', hostname='hostname')
 ### formatting
 
 ```python
->>> irctokens.format("USER", ["user", "0", "*", "real name"])
+>>> irctokens.build("USER", ["user", "0", "*", "real name"]).format()
 'USER user 0 * :real name'
 ```
 
@@ -63,8 +63,8 @@ def _send(line):
     while e.pending():
         e.pop(s.send(e.pending()))
 
-_send(irctokens.format("USER", ["username", "0", "*", "real name"]))
-_send(irctokens.format("NICK", [NICK]))
+_send(irctokens.build("USER", ["username", "0", "*", "real name"]))
+_send(irctokens.build("NICK", [NICK]))
 
 while True:
     lines = d.push(s.recv(1024))
@@ -75,10 +75,10 @@ while True:
     for line in lines:
         print(f"< {line.format()}")
         if line.command == "PING":
-            to_send = irctokens.format("PONG", [line.params[0]])
+            to_send = irctokens.build("PONG", [line.params[0]])
             _send(to_send)
 
         elif line.command == "001":
-            to_send = irctokens.format("JOIN", [CHAN])
+            to_send = irctokens.build("JOIN", [CHAN])
             _send(to_send)
 ```
