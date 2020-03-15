@@ -17,15 +17,17 @@ def _escape_tag(value: str):
     return value
 
 class Hostmask(object):
-    def __init__(self, source: str):
-        self._raw = source
-        username,      _, hostname = source.partition("@")
-        self.nickname, _, username = username.partition("!")
-        self.username = username or None
-        self.hostname = hostname or None
+    def __init__(self, source: str,
+            nickname: str,
+            username: Optional[str],
+            hostname: Optional[str]):
+        self._source = source
+        self.nickname = nickname
+        self.username = username
+        self.hostname = hostname
 
     def __str__(self) -> str:
-        return self._raw
+        return self._source
     def __repr__(self) -> str:
         return (f"Hostmask(nick={self.nickname!r}, user={self.username!r}"
            f", host={self.hostname!r})")
@@ -34,6 +36,12 @@ class Hostmask(object):
             return str(self) == str(other)
         else:
             return False
+
+    @staticmethod
+    def from_source(source: str):
+        username, _, hostname = source.partition("@")
+        nickname, _, username = username.partition("!")
+        return Hostmask(source, nickname, username or None, hostname or None)
 
 class Line(object):
     def __init__(self,
@@ -58,8 +66,8 @@ class Line(object):
     _hostmask: Optional[Hostmask] = None
     @property
     def hostmask(self):
-        if self.source:
-            self._hostmask = self._hostmask or Hostmask(self.source)
+        if self.source and not self._hostmask:
+            self._hostmask = Hostmask.from_source(self.source)
         return self._hostmask
 
     def format(self) -> str:
