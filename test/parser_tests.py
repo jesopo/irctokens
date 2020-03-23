@@ -24,3 +24,20 @@ class ParserTestsSplit(unittest.TestCase):
             self.assertEqual(tokens.source,  atoms.get("source", None))
             self.assertEqual(tokens.command, atoms["verb"].upper())
             self.assertEqual(tokens.params,  atoms.get("params", []))
+
+    def test_join(self):
+        data_path = os.path.join(data_dir, "msg-join.yaml")
+        with open(data_path) as data_file:
+            tests = yaml.safe_load(data_file.read())["tests"]
+
+        for test in tests:
+            atoms   = test["atoms"]
+            matches = test["matches"]
+
+            line = irctokens.build(
+                atoms["verb"],
+                atoms.get("params", []),
+                source=atoms.get("source", None),
+                tags=atoms.get("tags", None)).format()
+
+            self.assertIn(line, matches)
