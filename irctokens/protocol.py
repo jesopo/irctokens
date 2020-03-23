@@ -106,7 +106,9 @@ class Line(object):
                     raise ValueError("non last params cannot start with colon")
             outs.extend(params)
 
-            if " " in last or last.startswith(":"):
+            if (not last or
+                    " " in last or
+                    last.startswith(":")):
                 last = f":{last}"
             outs.append(last)
         return " ".join(outs)
