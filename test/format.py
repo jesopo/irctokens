@@ -30,6 +30,9 @@ class FormatTestSource(unittest.TestCase):
 class FormatTestCommand(unittest.TestCase):
     def test_lowercase(self):
         line = irctokens.build("privmsg").format()
+        self.assertEqual(line, "privmsg")
+    def test_uppercase(self):
+        line = irctokens.build("PRIVMSG").format()
         self.assertEqual(line, "PRIVMSG")
 
 class FormatTestTrailing(unittest.TestCase):

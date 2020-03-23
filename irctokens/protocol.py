@@ -94,7 +94,7 @@ class Line(object):
 
         if self.source:
             outs.append(f":{self.source}")
-        outs.append(self.command.upper())
+        outs.append(self.command)
 
         params = self.params.copy()
         if self.params:
