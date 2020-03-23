@@ -45,7 +45,7 @@ class Hostmask(object):
 
 class Line(object):
     def __init__(self,
-            tags:    Optional[Dict[str, Optional[str]]]=None,
+            tags:    Optional[Dict[str, str]]=None,
             source:  Optional[str]=None,
             command: str="",
             params:  List[str]=None):
@@ -109,10 +109,7 @@ def tokenise(line: str) -> Line:
         tags = {}
         for part in message_tags[1:].split(";"):
             key, _, value = part.partition("=")
-            if value:
-                tags[key] = _unescape_tag(value)
-            else:
-                tags[key] = None
+            tags[key] = _unescape_tag(value)
         line_obj.tags = tags
 
     line, trailing_sep, trailing = line.partition(" :")
@@ -133,6 +130,6 @@ def build(
         command: str,
         params:  List[str]=[],
         source:  Optional[str]=None,
-        tags:    Optional[Dict[str, Optional[str]]]=None
+        tags:    Optional[Dict[str, str]]=None
         ) -> Line:
     return Line(tags, source, command, params)
