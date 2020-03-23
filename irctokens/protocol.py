@@ -115,7 +115,7 @@ def tokenise(line: str) -> Line:
                 tags[key] = None
         line_obj.tags = tags
 
-    line, _, trailing = line.partition(" :")
+    line, trailing_sep, trailing = line.partition(" :")
     params = list(filter(bool, line.split(" ")))
 
     if params[0][0] == ":":
@@ -123,7 +123,7 @@ def tokenise(line: str) -> Line:
 
     line_obj.command = params.pop(0).upper()
 
-    if trailing:
+    if trailing_sep:
         params.append(trailing)
     line_obj.params = params
 
