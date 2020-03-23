@@ -4,8 +4,6 @@ TAG_UNESCAPED = ["\\",   " ",   ";",   "\r",  "\n"]
 TAG_ESCAPED =   ["\\\\", "\\s", "\\:", "\\r", "\\n"]
 
 def _unescape_tag(value: str):
-    if value.endswith("\\") and not value.endswith("\\\\"):
-        value = value[:-1]
     unescaped, escaped = "", list(value)
     while escaped:
         current = escaped.pop(0)
