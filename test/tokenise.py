@@ -8,11 +8,11 @@ class TokenTestTags(unittest.TestCase):
 
     def test_value_missing(self):
         line = irctokens.tokenise("@id= PRIVMSG #channel")
-        self.assertIsNone(line.tags["id"])
+        self.assertEqual(line.tags["id"], "")
 
     def test_equal_missing(self):
         line = irctokens.tokenise("@id PRIVMSG #channel")
-        self.assertIsNone(line.tags["id"])
+        self.assertEqual(line.tags["id"], "")
 
     def test_unescape(self):
         line = irctokens.tokenise(r"@id=1\\\:\r\n\s2 PRIVMSG #channel")
