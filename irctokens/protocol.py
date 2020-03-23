@@ -6,11 +6,21 @@ TAG_ESCAPED =   ["\\\\", "\\s", "\\:", "\\r", "\\n"]
 def _unescape_tag(value: str):
     if value.endswith("\\") and not value.endswith("\\\\"):
         value = value[:-1]
-    parts = value.split("\\\\")
-    for i, piece in enumerate(TAG_ESCAPED):
-        for j, part in enumerate(parts):
-            parts[j] = part.replace(piece, TAG_UNESCAPED[i])
-    return "\\".join(parts)
+    unescaped, escaped = "", list(value)
+    while escaped:
+        current = escaped.pop(0)
+        if current == "\\":
+            if escaped:
+                next = escaped.pop(0)
+                duo = current+next
+                if duo in TAG_ESCAPED:
+                    index = TAG_ESCAPED.index(duo)
+                    unescaped += TAG_UNESCAPED[index]
+                else:
+                    unescaped += next
+        else:
+            unescaped += current
+    return unescaped
 def _escape_tag(value: str):
     for i, char in enumerate(TAG_UNESCAPED):
         value = value.replace(char, TAG_ESCAPED[i])
