@@ -4,8 +4,6 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 with open("VERSION", "r") as version_file:
     version = version_file.read().strip()
-with open("requirements.txt", "r") as requirements_file:
-    install_requires = requirements_file.read().splitlines()
 
 setuptools.setup(
     name="irctokens",
@@ -27,5 +25,4 @@ setuptools.setup(
         "Topic :: Communications :: Chat :: Internet Relay Chat"
     ],
     python_requires='>=3.6'
-    install_requires=install_requires
 )
