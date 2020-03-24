@@ -1,2 +1,3 @@
-from .protocol import Line, tokenise, build, Hostmask
+from .protocol import build, format, tokenise
 from .stateful import StatefulDecoder, StatefulEncoder
+from .objects  import Hostmask, Line
