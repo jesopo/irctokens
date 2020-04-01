@@ -82,3 +82,7 @@ while True:
             to_send = irctokens.build("JOIN", [CHAN])
             _send(to_send)
 ```
+
+## contact
+
+Come say hi at [#irctokens on irc.tilde.chat](https://web.tilde.chat/?join=%23irctokens)
