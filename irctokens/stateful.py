@@ -2,7 +2,7 @@ from typing import List, Optional
 from .protocol import Line, tokenise
 
 class StatefulDecoder(object):
-    def __init__(self, encoding: str="utf8", fallback: str="iso-8859"):
+    def __init__(self, encoding: str="utf8", fallback: str="latin-1"):
         self._encoding = encoding
         self._fallback = fallback
         self.clear()
