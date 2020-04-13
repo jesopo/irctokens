@@ -58,3 +58,10 @@ class Line(object):
 
     def format(self) -> str:
         return self._format(self)
+
+    def with_source(self, source: str) -> "Line":
+        return Line(self.tags, source, self.command, self.params, self._format)
+    def copy(self) -> "Line":
+        return Line(self.tags, self.source, self.command, self.params,
+            self._format)
+
