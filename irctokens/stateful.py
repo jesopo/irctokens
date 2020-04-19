@@ -1,5 +1,5 @@
 from typing import List, Optional
-from .protocol import Line, tokenise
+from .protocol import Line, tokenise_b
 
 class StatefulDecoder(object):
     def __init__(self, encoding: str="utf8", fallback: str="latin-1"):
@@ -18,16 +18,13 @@ class StatefulDecoder(object):
             return None
 
         self._buffer += data
-        lines = [l.strip(b"\r") for l in self._buffer.split(b"\n")]
-        self._buffer = lines.pop(-1)
+        lines_b = [l.strip(b"\r") for l in self._buffer.split(b"\n")]
+        self._buffer = lines_b.pop(-1)
 
-        decode_lines: List[str] = []
-        for line in lines:
-            try:
-                decode_lines.append(line.decode(self._encoding))
-            except UnicodeDecodeError as e:
-                decode_lines.append(line.decode(self._fallback))
-        return [tokenise(l) for l in decode_lines]
+        lines: List[Line] = []
+        for line in lines_b:
+            lines.append(tokenise_b(line, self._encoding, self._fallback))
+        return lines
 
 class StatefulEncoder(object):
     def __init__(self, encoding: str="utf8"):

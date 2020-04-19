@@ -66,12 +66,11 @@ def build(
         ) -> Line:
     return Line(tags, source, command, params, format)
 
-def tokenise(line: str) -> Line:
+def _tokenise(tags_s: Optional[str], line: str) -> Line:
     tags: Optional[Dict[str, str]] = None
-    if line[0] == "@":
-        message_tags, _, line = line.partition(" ")
+    if not tags_s is None:
         tags = {}
-        for part in message_tags[1:].split(";"):
+        for part in tags_s[1:].split(";"):
             key, _, value = part.partition("=")
             tags[key] = _unescape_tag(value)
 
@@ -89,3 +88,25 @@ def tokenise(line: str) -> Line:
 
     return build(command, params, source, tags)
 
+def tokenise_b(line_b: bytes,
+        encoding: str="utf8",
+        fallback: str="latin-1") -> Line:
+
+    tags: Optional[str] = None
+    if line_b[0] == ord(b"@"):
+        tags_b, _, line_b = line_b.partition(b" ")
+        tags = tags_b.decode("utf8")
+
+    try:
+        line = line_b.decode(encoding)
+    except UnicodeDecodeError:
+        line = line_b.decode(fallback)
+
+    return _tokenise(tags, line)
+
+def tokenise(line: str) -> Line:
+    if line[0] == "@":
+        tags, _, line = line.partition(" ")
+        return _tokenise(tags, line)
+    else:
+        return _tokenise(None, line)

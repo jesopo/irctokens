@@ -55,3 +55,12 @@ class DecodeTestClear(unittest.TestCase):
         d.push(b"PRIVMSG ")
         d.clear()
         self.assertEqual(d.pending(), b"")
+
+class DecodeTestTagEncodingMismatch(unittest.TestCase):
+    def test(self):
+        d = irctokens.StatefulDecoder()
+        d.push("@asd=á ".encode("utf8"))
+        lines = d.push("PRIVMSG #chan :á\r\n".encode("latin-1"))
+
+        self.assertEqual(lines[0].params[1],   "á")
+        self.assertEqual(lines[0].tags["asd"], "á")
