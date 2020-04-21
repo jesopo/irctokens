@@ -1,4 +1,5 @@
-from typing import Callable, Dict, List, Optional
+from typing      import Dict, List, Optional
+from .formatting import format as format_
 
 class Hostmask(object):
     def __init__(self, source: str,
@@ -32,13 +33,11 @@ class Line(object):
             tags:    Optional[Dict[str, str]],
             source:  Optional[str],
             command: str,
-            params:  List[str],
-            format:  Callable[["Line"], str]):
+            params:  List[str]):
         self.tags    = tags
         self.source  = source
         self.command = command
         self.params  = params
-        self._format = format
 
     def __eq__(self, other) -> bool:
         if isinstance(other, Line):
@@ -57,11 +56,17 @@ class Line(object):
         return self._hostmask
 
     def format(self) -> str:
-        return self._format(self)
+        return format_(self.tags, self.source, self.command, self.params)
 
     def with_source(self, source: str) -> "Line":
-        return Line(self.tags, source, self.command, self.params, self._format)
+        return Line(self.tags, source, self.command, self.params)
     def copy(self) -> "Line":
-        return Line(self.tags, self.source, self.command, self.params,
-            self._format)
+        return Line(self.tags, self.source, self.command, self.params)
 
+def build(
+        command: str,
+        params:  List[str]=[],
+        source:  Optional[str]=None,
+        tags:    Optional[Dict[str, str]]=None
+        ) -> Line:
+    return Line(tags, source, command, params)

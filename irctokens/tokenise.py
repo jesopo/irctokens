@@ -1,8 +1,6 @@
-from typing   import Dict, List, Optional
-from .objects import Hostmask, Line
-
-TAG_UNESCAPED = ["\\",   " ",   ";",   "\r",  "\n"]
-TAG_ESCAPED =   ["\\\\", "\\s", "\\:", "\\r", "\\n"]
+from typing   import Dict, Optional
+from .objects import Line
+from .const   import TAG_ESCAPED, TAG_UNESCAPED
 
 def _unescape_tag(value: str):
     unescaped, escaped = "", list(value)
@@ -20,51 +18,6 @@ def _unescape_tag(value: str):
         else:
             unescaped += current
     return unescaped
-def _escape_tag(value: str):
-    for i, char in enumerate(TAG_UNESCAPED):
-        value = value.replace(char, TAG_ESCAPED[i])
-    return value
-
-def format(line: Line) -> str:
-    outs: List[str] = []
-    if line.tags:
-        tags_str = []
-        for key in sorted(line.tags.keys()):
-            if line.tags[key]:
-                value = line.tags[key] or ""
-                tags_str.append(f"{key}={_escape_tag(value)}")
-            else:
-                tags_str.append(key)
-        outs.append(f"@{';'.join(tags_str)}")
-
-    if line.source:
-        outs.append(f":{line.source}")
-    outs.append(line.command)
-
-    params = line.params.copy()
-    if line.params:
-        last = params.pop(-1)
-        for param in params:
-            if " " in param:
-                raise ValueError("non last params cannot have spaces")
-            elif param.startswith(":"):
-                raise ValueError("non last params cannot start with colon")
-        outs.extend(params)
-
-        if (not last or
-                " " in last or
-                last.startswith(":")):
-            last = f":{last}"
-        outs.append(last)
-    return " ".join(outs)
-
-def build(
-        command: str,
-        params:  List[str]=[],
-        source:  Optional[str]=None,
-        tags:    Optional[Dict[str, str]]=None
-        ) -> Line:
-    return Line(tags, source, command, params, format)
 
 def _tokenise(tags_s: Optional[str], line: str) -> Line:
     tags: Optional[Dict[str, str]] = None
@@ -86,7 +39,7 @@ def _tokenise(tags_s: Optional[str], line: str) -> Line:
     if trailing_sep:
         params.append(trailing)
 
-    return build(command, params, source, tags)
+    return Line(tags, source, command, params)
 
 def tokenise_b(line_b: bytes,
         encoding: str="utf8",
