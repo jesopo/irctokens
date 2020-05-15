@@ -19,7 +19,10 @@ def _unescape_tag(value: str):
             unescaped += current
     return unescaped
 
-def _tokenise(tags_s: Optional[str], line: str) -> Line:
+def _tokenise(
+        tags_s: Optional[str],
+        line:   str) -> Line:
+
     tags: Optional[Dict[str, str]] = None
     if not tags_s is None:
         tags = {}
@@ -41,9 +44,13 @@ def _tokenise(tags_s: Optional[str], line: str) -> Line:
 
     return Line(tags, source, command, params)
 
-def tokenise_b(line_b: bytes,
+def tokenise_b(
+        line_b:   bytes,
         encoding: str="utf8",
         fallback: str="latin-1") -> Line:
+
+    if b"\x00" in line_b:
+        line, _ = line.split(b"\x00", 1)
 
     tags: Optional[str] = None
     if line_b[0] == ord(b"@"):
@@ -58,6 +65,9 @@ def tokenise_b(line_b: bytes,
     return _tokenise(tags, line)
 
 def tokenise(line: str) -> Line:
+    if "\x00" in line:
+        line, _ = line.split("\x00", 1)
+
     if line[0] == "@":
         tags, _, line = line.partition(" ")
         return _tokenise(tags, line)
