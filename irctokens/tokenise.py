@@ -50,7 +50,7 @@ def tokenise_b(
         fallback: str="latin-1") -> Line:
 
     if b"\x00" in line_b:
-        line, _ = line.split(b"\x00", 1)
+        line_b, _ = line_b.split(b"\x00", 1)
 
     tags: Optional[str] = None
     if line_b[0] == ord(b"@"):
