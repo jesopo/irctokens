@@ -1,6 +1,5 @@
-from typing    import List, Optional
-from .objects  import Line
-from .tokenise import tokenise_b
+from typing import List, Optional
+from .line  import Line, tokenise_b
 
 class StatefulDecoder(object):
     def __init__(self, encoding: str="utf8", fallback: str="latin-1"):
