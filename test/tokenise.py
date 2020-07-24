@@ -76,3 +76,13 @@ class TokenTestNul(unittest.TestCase):
         line = irctokens.tokenise(
             ":nick!user@host PRIVMSG #channel :hello\x00 world")
         self.assertEqual(line.params, ["#channel", "hello"])
+
+class TokenTestNoCommand(unittest.TestCase):
+    def test(self):
+        def _test1():
+            line = irctokens.tokenise(":n!u@h")
+        def _test2():
+            line = irctokens.tokenise("@tag=1 :n!u@h")
+
+        self.assertRaises(ValueError, _test1)
+        self.assertRaises(ValueError, _test2)

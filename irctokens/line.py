@@ -85,6 +85,8 @@ def _tokenise(
     if params[0][0] == ":":
         source = params.pop(0)[1:]
 
+    if not params:
+        raise ValueError("Cannot tokenise command-less line")
     command = params.pop(0).upper()
 
     if trailing_sep:
