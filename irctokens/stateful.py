@@ -1,5 +1,5 @@
 from typing import List, Optional
-from .line  import Line, tokenise_b
+from .line  import Line, tokenise
 
 class StatefulDecoder(object):
     def __init__(self, encoding: str="utf8", fallback: str="latin-1"):
@@ -23,7 +23,7 @@ class StatefulDecoder(object):
 
         lines: List[Line] = []
         for line in lines_b:
-            lines.append(tokenise_b(line, self._encoding, self._fallback))
+            lines.append(tokenise(line, self._encoding, self._fallback))
         return lines
 
 class StatefulEncoder(object):

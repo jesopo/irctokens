@@ -86,3 +86,10 @@ class TokenTestNoCommand(unittest.TestCase):
 
         self.assertRaises(ValueError, _test1)
         self.assertRaises(ValueError, _test2)
+
+class TokenTestBytes(unittest.TestCase):
+    def test(self):
+        _str   = irctokens.tokenise("@a=1 :n!u@h PRIVMSG #chan :hello word")
+        _bytes = irctokens.tokenise(b"@a=1 :n!u@h PRIVMSG #chan :hello word")
+
+        self.assertEqual(_str, _bytes)

@@ -1,4 +1,4 @@
-from typing      import Dict, List, Optional
+from typing      import Dict, List, Optional, Union
 from .const      import TAG_ESCAPED, TAG_UNESCAPED
 from .hostmask   import Hostmask, hostmask
 from .formatting import format as format_
@@ -66,17 +66,14 @@ def _unescape_tag(value: str) -> str:
             unescaped += current
     return unescaped
 
-def _tokenise(
-        tags_s: Optional[str],
-        line:   str
-        ) -> Line:
-
+def _tokenise(line: str) -> Line:
     tags: Optional[Dict[str, str]] = None
-    if not tags_s is None:
+    if line[0] == "@":
+        tags_s, _, line = line.partition(" ")
         tags = {}
         for part in tags_s[1:].split(";"):
             key, _, value = part.partition("=")
-            tags[key] = _unescape_tag(value)
+            tags[key]     = _unescape_tag(value)
 
     line, trailing_sep, trailing = line.partition(" :")
     params = list(filter(bool, line.split(" ")))
@@ -94,33 +91,26 @@ def _tokenise(
 
     return Line(tags, source, command, params)
 
-def tokenise_b(
-        line_b:   bytes,
+def tokenise(
+        line:     Union[str, bytes],
         encoding: str="utf8",
         fallback: str="latin-1"
         ) -> Line:
 
-    if b"\x00" in line_b:
-        line_b, _ = line_b.split(b"\x00", 1)
-
     tags: Optional[str] = None
-    if line_b[0] == ord(b"@"):
-        tags_b, _, line_b = line_b.partition(b" ")
-        tags = tags_b.decode("utf8")
-
-    try:
-        line = line_b.decode(encoding)
-    except UnicodeDecodeError:
-        line = line_b.decode(fallback)
-
-    return _tokenise(tags, line)
-
-def tokenise(line: str) -> Line:
-    if "\x00" in line:
-        line, _ = line.split("\x00", 1)
-
-    if line[0] == "@":
-        tags, _, line = line.partition(" ")
-        return _tokenise(tags, line)
+    dline: str = ""
+    if isinstance(line, bytes):
+        if line[0] == ord(b"@"):
+            tags_b, sep, line = line.partition(b" ")
+            dline += (tags_b+sep).decode("utf8")
+        try:
+            dline += line.decode(encoding)
+        except UnicodeDecodeError:
+            dline += line.decode(fallback)
     else:
-        return _tokenise(None, line)
+        dline = line
+
+    if "\x00" in dline:
+        dline, _ = dline.split("\x00", 1)
+
+    return _tokenise(dline)
