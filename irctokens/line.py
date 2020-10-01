@@ -97,7 +97,6 @@ def tokenise(
         fallback: str="latin-1"
         ) -> Line:
 
-    tags: Optional[str] = None
     dline: str = ""
     if isinstance(line, bytes):
         if line[0] == ord(b"@"):
