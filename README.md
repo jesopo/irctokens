@@ -85,4 +85,4 @@ while True:
 
 ## contact
 
-Come say hi at [##irctokens on freenode](https://webchat.freenode.net/?channels=%23%23irctokens)
+Come say hi at `#irctokens` on irc.libera.chat
