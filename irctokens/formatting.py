@@ -16,7 +16,7 @@ def format(
         tags_str = []
         for key in sorted(tags.keys()):
             if tags[key]:
-                value = tags[key] or ""
+                value = tags[key]
                 tags_str.append(f"{key}={_escape_tag(value)}")
             else:
                 tags_str.append(key)
