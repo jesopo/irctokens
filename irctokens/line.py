@@ -109,7 +109,10 @@ def tokenise(
     else:
         dline = line
 
-    if "\x00" in dline:
-        dline, _ = dline.split("\x00", 1)
+    for badchar in set(dline) & {"\x00", "\r", "\n"}:
+        badindex = dline.find(badchar)
+        if not badindex == -1:
+            # truncate before this bad character
+            dline = dline[:badindex]
 
     return _tokenise(dline)
