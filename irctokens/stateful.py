@@ -1,8 +1,10 @@
 from typing import List, Optional
-from .line  import Line, tokenise
+
+from .line import Line, tokenise
+
 
 class StatefulDecoder(object):
-    def __init__(self, encoding: str="utf8", fallback: str="latin-1"):
+    def __init__(self, encoding: str = "utf8", fallback: str = "latin-1"):
         self._encoding = encoding
         self._fallback = fallback
         self.clear()
@@ -26,8 +28,9 @@ class StatefulDecoder(object):
             lines.append(tokenise(line, self._encoding, self._fallback))
         return lines
 
+
 class StatefulEncoder(object):
-    def __init__(self, encoding: str="utf8"):
+    def __init__(self, encoding: str = "utf8"):
         self._encoding = encoding
         self.clear()
 
