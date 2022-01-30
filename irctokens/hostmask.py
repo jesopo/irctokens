@@ -1,30 +1,35 @@
-from typing import Optional
+from __future__ import annotations
 
-class Hostmask(object):
-    def __init__(self, source: str,
-            nickname: str,
-            username: Optional[str],
-            hostname: Optional[str]):
-        self._source = source
-        self.nickname = nickname
-        self.username = username
-        self.hostname = hostname
+from dataclasses import dataclass
+
+
+@dataclass
+class Hostmask:
+    source: str
+    nickname: str
+    username: str | None
+    hostname: str | None
 
     def __str__(self) -> str:
-        return self._source
+        return self.source
+
     def __repr__(self) -> str:
-        return f"Hostmask({self._source})"
+        return f"Hostmask({self.source})"
+
     def __eq__(self, other) -> bool:
-        if isinstance(other, Hostmask):
-            return str(self) == str(other)
-        else:
+        if not isinstance(other, Hostmask):
             return False
+
+        return self.source == other.source
+
 
 def hostmask(source: str) -> Hostmask:
     username, _, hostname = source.partition("@")
     nickname, _, username = username.partition("!")
+
     return Hostmask(
-        source,
-        nickname,
-        username or None,
-        hostname or None)
+        source=source,
+        nickname=nickname,
+        username=username or None,
+        hostname=hostname or None,
+    )
