@@ -22,7 +22,7 @@ setuptools.setup(
         "Operating System :: OS Independent",
         "Operating System :: POSIX",
         "Operating System :: Microsoft :: Windows",
-        "Topic :: Communications :: Chat :: Internet Relay Chat"
+        "Topic :: Communications :: Chat :: Internet Relay Chat",
     ],
-    python_requires='>=3.6'
+    python_requires=">=3.6",
 )

@@ -1,5 +1,7 @@
 import unittest
+
 import irctokens
+
 
 class HostmaskTest(unittest.TestCase):
     def test_all(self):
@@ -36,6 +38,8 @@ class HostmaskTest(unittest.TestCase):
 
     def test_none_source(self):
         line = irctokens.tokenise("PRIVMSG #channel hello")
+
         def _hostmask():
             line.hostmask
+
         self.assertRaises(ValueError, _hostmask)

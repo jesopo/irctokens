@@ -1,16 +1,20 @@
 from typing import Dict, List, Optional
+
 from .const import TAG_ESCAPED, TAG_UNESCAPED
+
 
 def _escape_tag(value: str):
     for i, char in enumerate(TAG_UNESCAPED):
         value = value.replace(char, TAG_ESCAPED[i])
     return value
 
+
 def format(
-        tags:    Optional[Dict[str, str]],
-        source:  Optional[str],
-        command: str,
-        params:  List[str]):
+    tags: Optional[Dict[str, str]],
+    source: Optional[str],
+    command: str,
+    params: List[str],
+):
     outs: List[str] = []
     if tags:
         tags_str = []
@@ -36,9 +40,7 @@ def format(
                 raise ValueError("non last params cannot start with colon")
         outs.extend(params)
 
-        if (not last or
-                " " in last or
-                last.startswith(":")):
+        if not last or " " in last or last.startswith(":"):
             last = f":{last}"
         outs.append(last)
     return " ".join(outs)
