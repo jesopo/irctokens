@@ -20,7 +20,7 @@ class Line(object):
         else:
             return False
     def __repr__(self) -> str:
-        return (f"Line(tag={self.tags!r}, source={self.source!r}"
+        return (f"Line(tags={self.tags!r}, source={self.source!r}"
             f", command={self.command!r}, params={self.params!r})")
 
     _hostmask: Optional[Hostmask] = None
